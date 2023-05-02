@@ -21,8 +21,8 @@ const Form: React.FC = () => {
         name: "",
         preparation_time: "",
         type: "",
-        no_of_slices: 0,
-        diameter: 0.0,
+        no_of_slices: 1,
+        diameter: 0.01,
         spiciness_scale: 1,
     });
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
@@ -45,6 +45,14 @@ const Form: React.FC = () => {
                     body: JSON.stringify(formData),
                 }
             );
+            console.log(`Response status: ${response.status}`, `Response statusText: ${response.statusText}`, `Response.ok: ${response.ok}`)
+            
+            if(response.status === 400 || !response.ok){
+                setShowSuccessMessage(false);
+                setShowErrorMessage(true);    
+                return
+            }
+            
             const data = await response.json();
             console.log(data);
             setFormData(defaultFormData);
@@ -107,6 +115,7 @@ const Form: React.FC = () => {
                         type="number"
                         id="no_of_slices"
                         name="no_of_slices"
+                        min={1}
                         value={formData.no_of_slices}
                         onChange={handleInputChange}
                         required
@@ -118,6 +127,7 @@ const Form: React.FC = () => {
                         step="0.01"
                         id="diameter"
                         name="diameter"
+                        min={0.01}
                         value={formData.diameter}
                         onChange={handleInputChange}
                         required
@@ -150,6 +160,7 @@ const Form: React.FC = () => {
                         id="slices_of_bread"
                         name="slices_of_bread"
                         value={formData.slices_of_bread}
+                        min={1}
                         onChange={handleInputChange}
                         required
                     />
