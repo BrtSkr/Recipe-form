@@ -6,7 +6,7 @@
 ``` npm run dev ```
 * Node version: v18.13.0
 * npm version: 8.19.3
-## Used Bundler
+### Used Bundler
 * Vite
 ### Used dependencies
 *  "react": "^18.2.0",
