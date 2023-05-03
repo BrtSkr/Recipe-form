@@ -26,8 +26,6 @@
         position: absolute;
         content: "";
         background: url(../../assets/Monetp-b.png) no-repeat;
-        //background-size: cover;
-        //background-position: 0% -10rem;
         width: 50rem;
         height: 50rem;
         z-index: -1;
@@ -49,6 +47,7 @@
         border-radius: 0.5rem;
         padding: 1rem;
         outline: none;
+        filter: drop-shadow(0.1rem 0.1rem 1rem rgba(0, 0, 0, 0.425));
 
         &:hover,
         &:focus-within {
