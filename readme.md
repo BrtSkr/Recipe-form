@@ -1,3 +1,6 @@
+## Live
+* https://recipe-form.netlify.app/
+* The project was completed in approximately four hours
 ## Setup
 ``` npm i ```
 ``` npm run dev ```
