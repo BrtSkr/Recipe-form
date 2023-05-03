@@ -1,5 +1,6 @@
 import { FormEvent, useState } from "react";
-import './Form.scss';
+import "./Form.scss";
+
 interface FormData {
     name: string;
     preparation_time: string;
@@ -10,10 +11,15 @@ interface FormData {
     slices_of_bread?: number;
 }
 
+// Set default values for the form data
 const defaultFormData: FormData = {
     name: "",
     preparation_time: "",
     type: "",
+    no_of_slices: 1,
+    diameter: 0.01,
+    spiciness_scale: 1,
+    slices_of_bread: 1,
 };
 
 const Form: React.FC = () => {
@@ -28,10 +34,12 @@ const Form: React.FC = () => {
     const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [showErrorMessage, setShowErrorMessage] = useState(false);
 
+    // Handle changes to the form inputs
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
 
+    // Handle form submission
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
@@ -45,14 +53,18 @@ const Form: React.FC = () => {
                     body: JSON.stringify(formData),
                 }
             );
-            console.log(`Response status: ${response.status}`, `Response statusText: ${response.statusText}`, `Response.ok: ${response.ok}`)
-            
-            if(response.status === 400 || !response.ok){
+            console.log(
+                `Response status: ${response.status}`,
+                `Response statusText: ${response.statusText}`,
+                `Response.ok: ${response.ok}`
+            );
+            // If the response status is 400 or not ok, show an error message
+            if (response.status === 400 || !response.ok) {
                 setShowSuccessMessage(false);
-                setShowErrorMessage(true);    
-                return
+                setShowErrorMessage(true);
+                return;
             }
-            
+            // Otherwise, show a success message and reset the form data
             const data = await response.json();
             console.log(data);
             setFormData(defaultFormData);
@@ -64,7 +76,7 @@ const Form: React.FC = () => {
             setShowErrorMessage(true);
         }
     };
-
+    // Handle changes to the dish type select input
     const handleDishTypeChange = (
         event: React.ChangeEvent<HTMLSelectElement>
     ) => {
@@ -78,9 +90,11 @@ const Form: React.FC = () => {
                 type="text"
                 id="name"
                 name="name"
-                value={formData.name}
+                minLength={3}
+                value={formData.name || ""}
                 onChange={handleInputChange}
                 required
+                placeholder="Dish Name"
             />
 
             <label htmlFor="preparation_time">Preparation Time</label>
@@ -88,7 +102,7 @@ const Form: React.FC = () => {
                 type="time"
                 id="preparation_time"
                 name="preparation_time"
-                value={formData.preparation_time}
+                value={formData.preparation_time || ""}
                 onChange={handleInputChange}
                 step={1}
                 required
@@ -98,7 +112,7 @@ const Form: React.FC = () => {
             <select
                 id="type"
                 name="type"
-                value={formData.type}
+                value={formData.type || ""}
                 onChange={handleDishTypeChange}
                 required
             >
@@ -116,7 +130,7 @@ const Form: React.FC = () => {
                         id="no_of_slices"
                         name="no_of_slices"
                         min={1}
-                        value={formData.no_of_slices}
+                        value={formData.no_of_slices || 1}
                         onChange={handleInputChange}
                         required
                     />
@@ -128,7 +142,7 @@ const Form: React.FC = () => {
                         id="diameter"
                         name="diameter"
                         min={0.01}
-                        value={formData.diameter}
+                        value={formData.diameter || 0.01}
                         onChange={handleInputChange}
                         required
                     />
@@ -142,7 +156,7 @@ const Form: React.FC = () => {
                         type="number"
                         id="spiciness_scale"
                         name="spiciness_scale"
-                        value={formData.spiciness_scale}
+                        value={formData.spiciness_scale || 1}
                         onChange={handleInputChange}
                         min="1"
                         max="10"
@@ -159,7 +173,7 @@ const Form: React.FC = () => {
                         type="number"
                         id="slices_of_bread"
                         name="slices_of_bread"
-                        value={formData.slices_of_bread}
+                        value={formData.slices_of_bread || 1}
                         min={1}
                         onChange={handleInputChange}
                         required
@@ -167,7 +181,13 @@ const Form: React.FC = () => {
                     <br />
                 </>
             )}
-            <button type="submit">Submit</button>
+            <button type="submit">
+                Submit
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
             {showSuccessMessage && (
                 <p className="success-message">Recipe added successfully!</p>
             )}

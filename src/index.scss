@@ -1,0 +1,33 @@
+@import "./scss/Variables.scss";
+
+@font-face {
+  font-family: "Readex Pro";
+  src: url(./assets/ReadexPro-Regular.ttf) format("truetype");
+}
+
+:root {
+  box-sizing: border-box;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: $bg-dark;
+  font-family: $font-family;
+  font-synthesis: weight;
+}
+
+::-webkit-scrollbar {
+  background: gray;
+  width: 0.2rem;
+  height: 0.2rem;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(71, 71, 71);
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  min-height: 100vh;
+}
